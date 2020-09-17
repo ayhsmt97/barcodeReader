@@ -58,3 +58,8 @@ function stopScanner(){
     Quagga.offDetected();
     console.log("Stop scanner");
 }
+
+function copyToClipBoard(){
+    navigator.clipboard.writeText(document.querySelector('#isbn_code').innerText);
+    console.log("copy to clipboard");
+}
