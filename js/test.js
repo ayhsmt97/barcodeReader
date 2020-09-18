@@ -14,6 +14,8 @@ function startScanner(){
               codeRepetition: true,
               typeVertical: true,
               framaeRate: 15,
+              width: 640,
+              height: 480,
               facingMode: "environment"
           },
         },
