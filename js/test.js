@@ -14,8 +14,6 @@ function startScanner(){
               codeRepetition: true,
               typeVertical: true,
               framaeRate: 15,
-              //width: 640,
-              //height: 480,
               facingMode: "environment"
           },
         },
@@ -41,9 +39,40 @@ function startScanner(){
 
     // Register a function to be called when a barcode is detected
     Quagga.onDetected(function (data) {
-        document.getElementById("isbn_code").innerHTML = data.codeResult.code;
-        console.log(data.codeResult.code);
+        if(checkDigit(data.codeResult.code)){
+            document.getElementById("isbn_code").innerHTML = data.codeResult.code;
+            console.log("Detected code : ", data.codeResult.code);
+        }
+        else{
+            console.log("invalid value");
+        }
     });
+}
+/**
+ * check correctness by calculating check digit
+ * @param  {string} code scanned isbn code
+ * @return {boolean} Comparison result of calculated value and check digit
+ */
+function checkDigit(code){
+    var calc = 0;
+    var cd = code[code.length - 1];
+    switch(code.length){
+        // case ISBN-13
+        case 13:
+            for(var i = 0; i < code.length - 1; ++i){
+                calc += parseInt(code[i]) * (1 + 2 * (i % 2));
+            }
+            calc = ((10 - (calc % 10))) % 10;
+            break;
+        //case ISBN-10
+        case 10:
+            // need to be implemented
+            cd = 0;
+            calc = 0;
+        default:
+            return false;
+    }
+    return (parseInt(cd) == calc);
 }
 
 /** 
